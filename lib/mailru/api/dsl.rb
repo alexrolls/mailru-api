@@ -11,7 +11,7 @@ module MailRU
         raise Error.create(0, 'HTTP method must be GET or POST!') unless [:get, :post].include?(method)
 
         __send__(:define_singleton_method, underscore(name)) do
-          return @api.send(method, ("#{@group}.#{name}", params, secure))
+          return @api.send(method, "#{@group}.#{name}", params, secure)
         end
       end
 
