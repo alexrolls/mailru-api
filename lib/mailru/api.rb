@@ -1,7 +1,7 @@
 module MailRU
   class API
     PATH = 'http://www.appsmail.ru/platform/api'
-    PARAMS = [:app_id, :secret_key, :private_key, :session_key, :uid, :format]
+    PARAMS = [:app_id, :secret_key, :private_key, :session_key, :uid, :format, :mobile_spec]
 
     def initialize options = {}, &block
       @configuration = options
@@ -26,6 +26,10 @@ module MailRU
         end                                  # end
       EOV
     end
+
+   def configuration
+     @configuration
+   end
 
     def get name, params = {}, secure = Request::Secure::Any
       GetRequest.new(self, name, params, secure).get
@@ -83,7 +87,7 @@ module MailRU
 
     def mobile
       DSL.new(self, 'mobile') do
-        api 'getCanvas', :get, Request::Secure::No
+        api 'getCanvas', :get, Request::Secure::No, { mobile_spec: @api.configuration[:mobile_spec] }
       end
     end
 
